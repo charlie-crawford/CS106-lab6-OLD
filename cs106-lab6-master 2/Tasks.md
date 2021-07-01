@@ -1,19 +1,21 @@
 ## Overview: 
-For this assignment, you will continue your previous investigation of Democratic primary polling data by using a heap to sort the candidates by their polling numbers (to determine which candidates are currently in the lead).
+For this assignment, you will continue your previous investigation of Democratic primary polling data by using a heap to sort the candidates by their polling numbers (to determine which candidates are currently in the lead). You are asked to implement the ArrayHeap using the PriorityQueue interface in part 1, then implement heap sorting in-place (no removal of items) in part 2, and finally implement heap sort with removal in part 3.
+
 
 ## Part 1: Implementing a Heap
 It would be best if you started by implementing the given PriorityQueue interface as an ArrayHeap so that generic objects that implement the compareTo method from the Comparable interface can be inserted into your priority queue. Requirements are shown below, and then some tips for each method.
+
 
 # Requirements
 1. Implement the PriorityQueue interface as an ArrayHeap with the maximum at the top. Unlike last week when we were using recursion, you're encouraged to use loops in your heap implementation. You may find it useful to use private or public helper methods called from the publicly defined methods in the interface. However, you still do not need a Node class - the entire data structure will be contained within the ArrayHeap class.
 
 2. You should use the compareTo method of the given element to determine which values are greater or less within the priority queue. We will only read one file for this week, so we do not need to deal with duplicate entries. In general, there is not a problem with having duplicate entries in a heap, but we'll avoid this by just using one file. Since this heap will be used to store polling data, you should be implementing this as a maximum heap so that we will be able to retrieve the current top candidate quickly.
 
-    Last week we used the candidate's last name to determine the ordering. For this week, copy over your Candidate class (or whatever you called it) and modify the compareTo method instead of comparing the candidate's polling numbers. If there is a tie, use the candidate's last names (edit: still A->Z).
+    Last week we used the candidate's last name to determine the ordering. For this week, copy over your Candidate class (or whatever you called it) and modify the compareTo method instead of comparing the name, we compare the candidate's polling numbers. If there is a tie, use the candidate's last names (in A->Z order).
 
 3. You should Override the toString method in your ArrayHeap class to return a String representation of the heap for debugging and auto-grading purposes. For example, if I add the following numbers to a new heap one by one:
 -2, 3, 9, -7, 1, 2, 6, -3
-and then print the heap; I will get something like this:
+and then print the heap, I should get something like this:
 
         9
 
@@ -26,7 +28,7 @@ and then print the heap; I will get something like this:
    Each line represents one level of the heap, so 9 is at the root (maximum of all the numbers). It has children 1 and 6. The children of 1 are -3 and -2. The children of    6 are 2 and 3. -3 has one child in the last level: -7.
 
 ## Method Summary
-* **Constructor and instance variables:** you should have only one instance variable, the array representing the heap. Since we want to add elements (thus resizing the array), we will use an ArrayList for this array. You should have one constructor that takes in no arguments (we will add another constructor later).
+* **Constructor and instance variables:** you should have only one instance variable, the array representing the heap. Since we want to add elements (thus resizing the array), we will use an **ArrayList** for this array. You should have one constructor that takes in no arguments (we will add another constructor later).
 
 * **int size()**
 
@@ -48,7 +50,7 @@ and then print the heap; I will get something like this:
 
 * **toString():** this method should print out each level of the tree (as shown above). To write this, you can loop through the array elements, adding a new line whenever you reach a new power of 2. You can begin testing this method by printing out the ArrayList directly.
 
-* **E removeMax():** wait to write this until you have tested insert and toString (see examples below). Remove max should save the root element to return later. Then put the last element in the heap at the root and "bubble down" until the heap is re-heapified. To do this, exchange this new parent element with the larger of its children until it is in the right place or back at the end. I would recommend adding a bubbleDown method.
+* **E removeMax():** wait to write this until you have tested insert and toString (see examples below). Remove max should save the root element to return later. Then put the last element in the heap at the root and "bubble down" until the heap is re-heapified. To do this, exchange this new parent element with the larger of its children until it is in the right place or back at the end. I would recommend adding a **bubbleDown** method.
 
 * **Examples:** These examples show the heap creation process (not removal). Put this testing (as well as additional testing of the other methods) in a separate helper method in main.
 
@@ -91,7 +93,8 @@ Example 1:
         H G
         E G C F
         A D B
-        
+     
+     
 # Part 2: Heap Sort (in-place)
    In the next part of the assignment, implement Heap Sort in-place. This will sort an array low to high. In Part 3, we will see another way to use heaps to sort out-of-place but high to low. Heaps are very versatile. Steps:
 
@@ -127,7 +130,7 @@ Example 1:
 # Part 3: Heap Sort of Candidates using removeMax
 We will now use heaps to sort differently. Using the polling data from the previous Lab, this time, read in only one file (to avoid dealing with duplicates). Create a new heap, then add the candidates to the heap one by one. Then, afterward, use removeMax in a loop to remove and print each candidate in turn. This will create a printout of the candidates from highest polling number to lowest polling number.
 
-Make sure to copy over your Candidate class and change your compareTo method so that polling data objects are ordered based on the candidate's polling number (using the last name to break ties).
+Make sure to copy over your Candidate class and change your compareTo method so that polling data objects are ordered based on the candidate's **polling number** (using the last name to break ties).
 
 Here is an example command-line argument:
 
@@ -167,7 +170,7 @@ And this is what the output should look like (you're welcome to include intermed
 
 In this part of the Lab, you will create a program that can read and write text expressed using a variable bitrate encoding. Such schemes can be used to compress files so that both storage and transmission consume fewer resources.
 
-The canonical variable bitrate algorithm is called Huffman coding after its inventor, David Huffman, who, as a student at MIT, came up with the technique and proved its optimality in response to a homework assignment professor. You can read more about the algorithm in its [Wikipedia](https://en.wikipedia.org/wiki/Huffman_coding) article. More common characters are encoded using short bit strings, while rarer characters use much longer bit strings. The savings on the short, common characters more than make up for the extra bits for the rarely occurring longer characters.
+The canonical variable bitrate algorithm is called Huffman coding after its inventor, David Huffman, who, as a student at MIT, came up with the technique and proved its optimality in response to a homework assignment professor. You can read more about the algorithm in its [Wikipedia](https://en.wikipedia.org/wiki/Huffman_coding) article. More common characters are encoded using short bit strings, while rarer characters use much longer bit strings. The savings on the short, common characters more than make up for the extra bits used for the rarely occuring longer characters.
 
 To avoid confusion, Huffman coding uses a prefix code scheme, meaning that no character's encoding forms the beginning sequence of any other. So, for example, if the code 00 represents the letter e, then no other code may begin with 00 – they must all use 01, 10, or 11 instead. This ensures that the encoded bit string has a unique interpretation. It also means that the encoding scheme can be conveniently represented using a binary tree, with symbols at the leaves and the corresponding code for that symbol determined by the path to it from the root. By convention, left branches correspond to a 0 in the code, and right branches to a 1. So if the leaf node for the letter t is reached by going left-right-left from the root, then the code for t would be 010.
 
